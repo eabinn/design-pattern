@@ -1,39 +1,56 @@
-# design-pattern
+# State Pattern
 
-### Strategy pattern
-https://github.com/inbaeyoonkr/design-pattern/tree/strategy-pattern
+### State 패턴을 사용하면
 
-<br>
-
-### Observer pattern
-https://github.com/inbaeyoonkr/design-pattern/tree/observer-pattern
+내부 상태를 바꿈으로써 객체에서 행동을 바꾸는 것을 가능케 한다.
 
 <br>
 
-### Decorator pattern
-https://github.com/inbaeyoonkr/design-pattern/tree/decorator-pattern
+### State 패턴을 적용하기 전 GumballMachine
+
+- 객체 내 메서드에서 if문을 사용하여 각 상태에 따른 행동을 구현해줘야 했따.
+- 코드 가독성도 떨어질 뿐만 아니라 새로운 상태가 추가될 경우 객체 내 모든 메서드에서 if 문에 조건을 추가해줘야 한다.
+  - 코드는 변화에는 닫혀있어야 한다는 원칙을 위배하게 된다.
 
 <br>
 
-### Factory pattern
-https://github.com/inbaeyoonkr/design-pattern/blob/factory-pattern
+### GumballMachine에 State 패턴을 적용하면서 얻을 수 있었던 것
+
+- 각 상태의 행동을 별도의 클래스로 캡슐화했다.
+- if 선언문을 없앴다.
+- 각 상태를 변경에 대해서는 닫혀 있게 하면서도 GumballMachine 자체는 새로운 상태 클래스를 추가하는 확장에 열려있도록 했다 (OCP).
+  - State 인터페이스를 구현하는 객체를 만들어 GumballMachine에 추가하기만 하면 된다.
 
 <br>
 
-### Singleton pattern
-https://github.com/inbaeyoonkr/design-pattern/tree/singleton-pattern
+### 스테이트 패턴의 정의
+
+**스테이트 패턴을 이용하면 객체의 내부 상태가 바뀜에 따라서 객체의 행동을 바꿀 수 있다. 마치 객체의 클래스가 바뀌는 것과 같은 결과를 얻을 수 있다.**
+
+- **구성**을 통해서 여러 상태 객체를 바꿔가면서 사용을 하기 때문에 클라이언트는 마치 객체의 클래스가 바뀌는 것처럼 느껴진다.
+
+![images](https://user-images.githubusercontent.com/48785060/142759524-77a54702-af37-45af-8a7c-ab52beb13a64.png)
+
+- Context 클래스에는 여러 상태 객체가 들어있을 수 있다.
+- Context의 request() 메서드가 호출되면 그 작업은 상태 객체가 처리한다.
+- State 인터페이에서는 모든 구상 상태 클래스에 대한 공통 인터페이스를 정의한다. 모든 상태 클래스에서 같은 인터페이스를 구현하기 때문에 Context에서 상태를 바꿔가면서 쓸 수 있다.
+- ConcreteState에서는 Context로 부터 온 요청을 자기 나름의 방식으로 처리한다. 이렇게 하면 Context에서 상태를 바꾸기만 하면 행동도 바뀌게 된다.
 
 <br>
 
-### Command pattern
-https://github.com/inbaeyoonkr/design-pattern/tree/command-pattern
+### 스트래티지 패턴 vs 스테이트 패턴
 
-<br>
+- 스트래티지 패턴
+  - 스트래티지 패턴에서는 일반적으로 행동 또는 알고리즘은 Context 클래스를 만들때 설정한다. 그래도 동적으로 바꿀 수 있긴 하다.
+- 스테이트 패턴
+  - 스테이트 패턴을 이용하면 Context의 내부 상태가 바뀜에 따라 알아서 행동을 바꿀 수 있도록 한다.
 
-### Adapter and Facade pattern
-https://github.com/inbaeyoonkr/design-pattern/tree/adapter-and-facade-pattern
+### 핵심정리
 
-<br>
-
-### Template Method pattern
-https://github.com/inbaeyoonkr/design-pattern/tree/template-method-pattern
+- 스테이트 패턴을 이용하면 내부 상태를 바탕으로 여러 가지 서로 다른 행동을 사용할 수 있따.
+- 각 상태를 클래스를 이용하여 표현한다.
+- Context 객체에서는 현재 상태 객체에게 행동을 위임한다.
+- 각 상태를 클래스로 캡슐화함으로써 나중에 변경시켜야 하는 내용을 국지화할 수 있다.
+- 상태 전환은 State 클래스에 의해 제어할 수도 있고 Context 클래스에 의해서 제어할 수도 있다.
+- State 클래스르 여러 Context 객체의 인스턴스와도 공유하도록 디자인할 수 있다.
+  - 대신 State 객체에서 자체 상태를 보관하지 않아야 한다.
