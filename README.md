@@ -1,53 +1,84 @@
-# design-pattern
+# Iterator and Composite pattern
 
-### Strategy pattern
-
-https://github.com/inbaeyoonkr/design-pattern/tree/strategy-pattern
+**객체를 저장하는 방식은 보여주지 않으면서도 클라이언트로 하여금 객체들에게 일일히 접근할 수 있게 해준다.**
 
 <br>
 
-### Observer pattern
+## Iterator pattern
 
-https://github.com/inbaeyoonkr/design-pattern/tree/observer-pattern
+### 문제 인식
 
-<br>
-
-### Decorator pattern
-
-https://github.com/inbaeyoonkr/design-pattern/tree/decorator-pattern
+- 콜렉션들을 순환해야 하는데 각 콜렉션의 형식이 달라서 순환을 돌때 각각 다른 방법을 사용해야 한다.
+  -> **객체의 컬렉션에 대한 반복작업을 처리하는 방버을 캡슐화한 Iterator 객체를 만들자.**
 
 <br>
 
-### Factory pattern
+### 이터레이터 패턴은
 
-https://github.com/inbaeyoonkr/design-pattern/blob/factory-pattern
+- Iterator라는 인터페이스에 의존한다.
 
-<br>
+```
+interface Iterator {
+    hasNext(): boolean;
+    next(): IteratorItem;
+}
+```
 
-### Singleton pattern
-
-https://github.com/inbaeyoonkr/design-pattern/tree/singleton-pattern
-
-<br>
-
-### Command pattern
-
-https://github.com/inbaeyoonkr/design-pattern/tree/command-pattern
+- 이 인터페이스가 있으면 배열, 리스트, 해시테이블은 물론 어떤 종류의 객체 컬렉션에 대해서도 반복자를 구현할 수 있다.
+- 서로 다른 형식의 컬렉션이라도 Iterator 인터페이스를 구현한다는 것만을 클라이언트에서 알고 있으면 된다.
 
 <br>
 
-### Adapter and Facade pattern
+### 이터레이터 패턴의 정의
 
-https://github.com/inbaeyoonkr/design-pattern/tree/adapter-and-facade-pattern
+**이터레이터 패턴으 컬렉션 구현 방법을 노출시키지 않으면서도 그 집합체 안에 들어있는 모든 항목에 접근할 수 있게 해주는 방법을 제공해준다.**
+
+- 컬렉션 객체 안에 들어있는 모든 항목에 접근하는 방식이 통일되어 있으면 어떤 종류의 집합체에 대해서도 사용할 수 있는 다형적인 코드를 만들 수 있다.
+- 이터레이터 팬터을 사용하면 모든 항목에 일일이 접근하는 작업을 컬렉션 객체가 아닌 반복자 객체에서 맡개된다.
+  - 이렇게 하면 집합체의 인터페이스 및 구현이 간단해질 뿐 아니라 집합체에서는 객체 컬렉션 관리에만 전념할 수 있다.
+
+![l6](https://user-images.githubusercontent.com/48785060/142760828-902e706c-dcac-4289-a966-86814035521f.png)
+
+- Aggregate라는 공통적인 인터페이스를 둠으로써 클라이언트와 객체 컬렉션의 구현이 분리된다.
+- ConcreteAggreagate에는 객체 컬렉션이 들어있으며 그 안에 들어있는 컬렉션에 대한 Iteragor을 리턴하는 메서드를 구현한다.
+- 모든 ConcreteAggregate에는 그 안에 있는 객체 컬렉션에 대해 돌아가면서 반복 작업을 처리할 수 있게해주는 ConcreteIerator의 인스턴스를 만들 수 있어야 한다.
+- Iterator 인터페이스에서는 모든 반복자에서 구현해야 하는 인터페이스를 제공한다.
 
 <br>
 
-### Template Method pattern
+### 디자인 원칙 "단일 역할 원칙": 클래스를 바꾸는 이유는 한 가지 뿐이여야 한다.
 
-https://github.com/inbaeyoonkr/design-pattern/tree/template-method-pattern
+- 어떤 클래스에서 맡고 있는 모든 역할들은 나중에 코드 변화를 불러올 수 있다. 따라서 역할이 두 개 이상 있으면 바뀔 수 있는 부분이 두 가지 이상이 되는 것이다. 따라서 이 원칙에 의해 한 클래스에서는 한 가지 역할만 맡도록 해야한다.
 
 <br>
 
-### State pattern
+## Composite pattern
 
-https://github.com/inbaeyoonkr/design-pattern/tree/state-pattern
+### 컴포지트 패턴의 정의
+
+**컴포지트 패턴을 이용하면 객체들을 트리 구조로 구성하여 부분과 전체를 나타내는 계층구조로 만들 수 있다. 이 패턴을 이용하면 클라이언트에서 개별 객체와 다른 객체들로 구성된 복합 객체(composite)를 똑같은 방법으로 다룰 수 있다.**
+
+- 컴포지트 패턴을 이용하면 객체의 구성과 개별 객체를 노드로 가지는 트리 형태로 객체를 구축할 수 있다.
+- 이런 복합구조(Composite structure)를 사용하면 복합 객체와 개별 객체에 대해 똑같은 작업을 적용할 수 있다. 즉, 대부분의 경우에 복합 객체와 개별 객체를 구분할 필요가 없다.
+- Compoiste 객체(복합객체)에는 구성요소(component)가 들어있고 구성요소는 Composite 객체와 Leaf 객체다. 재귀적인 구조다.
+
+![unnamed](https://user-images.githubusercontent.com/48785060/142761172-c158bcf9-4244-47a7-9883-09e52af84301.png)
+
+- 클라이언트에서는 Component 인터페이스를 이ㅛㅇ하여 복합 객체 내의 객체들을 조작할 수 있다.
+- Component에서는 복합 객체 내에 들어있는 모든 객체들에 대한 인터페이스를 정의한다. Composite 노드 뿐만 아니라 Leaf 노드에 대한 메서드까지 정의한다.
+- Leaf 노드에서는 add(), remove(), getChild() 같은 메서드가 전혀 쓸 필요가 없지만 상속받아야 한다.
+- Leaf 노드에서는 그 안에 들어있는 원소에 대한 행동을 정의한다. Composite에서 지원하는 기능을 구현하기만 하면된다.
+- Composite에서는 자식이 있는 구성요소의 행동을 정의하고 자식 구성요소를 저장하는 역할을 한다.
+
+<br>
+
+### 핵심 정리
+
+- Iterator을 이용하면 내부 구조를 드러내지 않으면서도 클라인트로부터 컬렉션 안에 들어있는 모든 원소들에 접근하도록 할 수 있다.
+- Iterator 패턴을 이용하면 집합체에 대한 반복작업을 별도의 객체로 캡슐화할 수 있다.
+- Iterator 패턴을 이용하면 컬렉션에 있는 모든 데이터에 대해서 반복작업을 하는 역할을 컬렉션에서 분리시킬 수 있다.
+- Iterator 패턴을 쓰면 다양한 집합체에 들어있는 객체에 대한 반복작업들에 대해 똑같은 인터페이스를 적용할 수 있기 때문에, 집합체에 있는 객체를 활용하는 코드를 만들때 다형성을 활용할 수 있다.
+- 한 클래스에서는 한 가지 역할만 부여한다.
+- Composite 패턴에서는 개별 객체와 복합 객체를 모두 담아둘 수 있는 구조를 제공한다.
+- Composite 패턴을 사용하면 클라이언트에서 개별 객체와 복합 객체를 똑같은 방법으로 다룰 수 있다.
+- Composite 구조에 들어있는 것을 구성요소라고 부른다. 구성요소에는 Composite 객체와 Leaf 객체가 있다.
