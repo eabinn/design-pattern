@@ -66,12 +66,65 @@ class QuackCounter implements Quackable {
   }
 }
 
+/**
+ * 모든 오리들이 QuackCounter 데코레이터로 감싸져 만들어지도록 하기 위해 팩토리를 사용한다.
+ * 서브클래스들에서는 이 추상 팩토리를 구현하여 다양한 종류의 객체를 만들 수 있다.
+ */
+abstract class AbstractDuckFactory {
+  abstract createMallardDuck(): !Quackable;
+  abstract createRedHeadDuck(): Quackable;
+  abstract createDuckCall(): Quackable;
+  abstract createRubberDuck(): Quackable;
+}
+
+class DuckFactory extends AbstractDuckFactory {
+  /**
+   * 각 메서드에서 객체를 만드는데 전부 Quackable 객체이다.
+   * 시뮬레이터에서는 실제 어떤 제품이 만들어지는지 알 수 없다. 그냥 Quackable 객체가 리턴된다는 것만 안다.
+   */
+
+  createMallardDuck(): Quackable {
+    return new MallardDuck();
+  }
+
+  createRedHeadDuck(): Quackable {
+    return new RedHeadDuck();
+  }
+
+  createDuckCall(): Quackable {
+    return new DuckCall();
+  }
+
+  createRubberDuck(): Quackable {
+    return new RubberDuck();
+  }
+}
+
+class CountingDuckFactory implements AbstractDuckFactory {
+  createMallardDuck(): Quackable {
+    return new QuackCounter(new MallardDuck());
+  }
+
+  createRedHeadDuck(): Quackable {
+    return new QuackCounter(new RedHeadDuck());
+  }
+
+  createDuckCall(): Quackable {
+    return new QuackCounter(new DuckCall());
+  }
+
+  createRubberDuck(): Quackable {
+    return new QuackCounter(new RubberDuck());
+  }
+}
+
 class DuckSimulator {
-  run() {
-    const mallardDuck = new QuackCounter(new MallardDuck()) as Quackable;
-    const redheadDuck = new QuackCounter(new RedHeadDuck()) as Quackable;
-    const duckCall = new QuackCounter(new DuckCall()) as Quackable;
-    const rubberDuck = new QuackCounter(new RubberDuck()) as Quackable;
+  run(duckFactory: AbstractDuckFactory) {
+    // 객체의 인스턴스를 직접 생성하지 않고, 팩토리의 메서드를 통해서 생성한다.
+    const mallardDuck = duckFactory.createMallardDuck();
+    const redheadDuck = duckFactory.createRedHeadDuck();
+    const duckCall = duckFactory.createDuckCall();
+    const rubberDuck = duckFactory.createRubberDuck();
     const gooseDuck = new GooseAdapater(new Goose()) as Quackable;
 
     console.log("Duck Simulator");
@@ -92,5 +145,6 @@ class DuckSimulator {
 
 (function main() {
   const duckSimulator = new DuckSimulator();
-  duckSimulator.run();
+  const duckFactory: AbstractDuckFactory = new CountingDuckFactory();
+  duckSimulator.run(duckFactory);
 })();
