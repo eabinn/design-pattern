@@ -118,6 +118,24 @@ class CountingDuckFactory implements AbstractDuckFactory {
   }
 }
 
+/**
+ * 복합 객체(Composite)와 잎 원소에서 똑같은 인터페이스를 구현해야 한다.
+ * 그래야지 복합객체를 개별객체와 동일하게 다룰수 있다.
+ */
+class Flock implements Quackable {
+  private quackers: Array<Quackable> = [];
+
+  add(quacker: Quackable) {
+    this.quackers.push(quacker);
+  }
+
+  quack() {
+    this.quackers.forEach((quacker) => {
+      quacker.quack();
+    });
+  }
+}
+
 class DuckSimulator {
   run(duckFactory: AbstractDuckFactory) {
     // 객체의 인스턴스를 직접 생성하지 않고, 팩토리의 메서드를 통해서 생성한다.
@@ -129,11 +147,29 @@ class DuckSimulator {
 
     console.log("Duck Simulator");
 
-    mallardDuck.quack();
-    redheadDuck.quack();
-    duckCall.quack();
-    rubberDuck.quack();
-    gooseDuck.quack();
+    const flockOfDucks = new Flock();
+
+    flockOfDucks.add(mallardDuck);
+    flockOfDucks.add(redheadDuck);
+    flockOfDucks.add(duckCall);
+    flockOfDucks.add(rubberDuck);
+    flockOfDucks.add(gooseDuck);
+
+    const flockOfMallards = new Flock();
+
+    const mallardOne = duckFactory.createMallardDuck();
+    const mallardTwo = duckFactory.createMallardDuck();
+    const mallardThree = duckFactory.createMallardDuck();
+    const mallardFour = duckFactory.createMallardDuck();
+
+    flockOfMallards.add(mallardOne);
+    flockOfMallards.add(mallardTwo);
+    flockOfMallards.add(mallardThree);
+    flockOfMallards.add(mallardFour);
+
+    flockOfDucks.add(flockOfMallards);
+
+    flockOfDucks.quack();
 
     console.log(`The ducks quacked ${QuackCounter.numberOfQuacks} times.`);
   }
