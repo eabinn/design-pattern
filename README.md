@@ -1,59 +1,31 @@
-# design-pattern
+# Compound Pattern
 
-### Strategy pattern
+### 컴파운드 패턴(Compound Pattern) 이란
 
-https://github.com/inbaeyoonkr/design-pattern/tree/strategy-pattern
+> 컴파운드 패턴이란 반복적으로 생길수 있는 일반적인 문제를 해결하기 위한 용도로 두 개 이상의 패턴을 결합해서 사용하는 것을 뜻한다.
 
-<br>
+- 일련의 패턴을 함께 사용하여 다양한 디자인 문제를 해결한다.
+- 대표적인 컴파운드 패턴에는 MVC(Model-View-Controller) 패턴이 있다.
 
-### Observer pattern
+### 기본적인 Model - View - Controller
 
-https://github.com/inbaeyoonkr/design-pattern/tree/observer-pattern
+- Model
+  - 모델에는 모든 데이터, 상태 및 애플리케이션 로직이 들어있다.
+  - 뷰와 컴트롤러에서 모델의 상태를 조작하거나 가져오기 위한 인터페이스를 제공한다.
+- View
+  - 모델을 표현하는 방법을 제공한다.
+  - 화면에 표시하기 위해 필요한 상태 및 데이터는 모델에서 직접 가져온다.
+- Controller
+  - 사용자에게 입력을 받아 모델의 상태를 변경하게 위한 메서드를 호출한다.
+  - 컨트롤러를 통해 제어로직을 View로 부터 분리해내서 뷰와 모델읠 결합을 끊어주는 역할을 한다.
 
-<br>
+### 패턴과 함께 보는 Model - View - Controller
 
-### Decorator pattern
-
-https://github.com/inbaeyoonkr/design-pattern/tree/decorator-pattern
-
-<br>
-
-### Factory pattern
-
-https://github.com/inbaeyoonkr/design-pattern/blob/factory-pattern
-
-<br>
-
-### Singleton pattern
-
-https://github.com/inbaeyoonkr/design-pattern/tree/singleton-pattern
-
-<br>
-
-### Command pattern
-
-https://github.com/inbaeyoonkr/design-pattern/tree/command-pattern
-
-<br>
-
-### Adapter and Facade pattern
-
-https://github.com/inbaeyoonkr/design-pattern/tree/adapter-and-facade-pattern
-
-<br>
-
-### Template Method pattern
-
-https://github.com/inbaeyoonkr/design-pattern/tree/template-method-pattern
-
-<br>
-
-### Iterator and Composite pattern
-
-https://github.com/inbaeyoonkr/design-pattern/tree/iterator-and-composite-pattern
-
-<br>
-
-### State pattern
-
-https://github.com/inbaeyoonkr/design-pattern/tree/state-pattern
+- 뷰와 컨트롤러는 고전적인 `스트래티지 패턴`으로 구현돼 있다. 뷰 객체를 여러 전략을 써서 설정할 수 있다.
+  - 뷰에서는 애플리케이션의 겉모습에만 신경을 쓰고, 인터페이스의 행동에 대한 결정은 컨트롤러가 처리한다.
+  - 스트래티지 패턴을 사용하는 것은 뷰를 모델로부터 분리시키는데 도움이된다. 사용자가 요청한 내역을 처리하기 위해서 모델과 이야기 하는 부분은 컨트롤로 뿐이다. 뷰는 몰라도 된다.
+- 뷰는 컴포지트 패턴이다.
+  - Flutter에 화면을 그리기 위한 모든 클래스들이 Widget 인터페이스를 구현하는 것을 예로 들을 수 있을 것 같다.
+- 모델은 옵저버 패턴이다.
+  - 모델은 옵저버 패턴을 써서 상태가 변경되었을때 그 모델하고 연결된 객체들에게 연락을 한다.
+  - 옵저버 패턴을 사용하면 모델을 뷰 및 컨트롤러로부터 완전히 독립시킬 수 있다.
