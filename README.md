@@ -1,59 +1,43 @@
-# design-pattern
+# Proxy pattern
 
-### Strategy pattern
+# Proxy Pattern
 
-https://github.com/inbaeyoonkr/design-pattern/tree/strategy-pattern
+## 프록시 패턴의 정의
 
-<br>
+> 어떤 객체에 대한 접근을 제어하기 위한 용도로 대리인 또는 대변인에 해당하는 객체를 제공하는 패턴
 
-### Observer pattern
+- 프록시(Proxy)는 자신이 대변하는 객체와 그 객체에 접근하고자 하는 클라이언트 사이에서 여러가지 방식으로 접근을 제어하고 관리한다.
+- 접근을 제어하는 몇 가지 프록시
+  - **원격 프록시**를 사용하면 원격 객체에 대한 접근을 제어
+  - **가상 프록시(virtual proxy)**를 써서 생성하기 힘든 자원에 대한 접근을 제어
+  - **보호 프록시(protection proxy)**를 써서 접근 권한이 필요한 자원에 대한 접근을 제어
 
-https://github.com/inbaeyoonkr/design-pattern/tree/observer-pattern
+<img width="683" alt="Screen Shot 2021-11-27 at 2 50 08 PM" src="https://user-images.githubusercontent.com/48785060/143670391-9e0b4d78-b2f6-4267-9226-7b1ee0d07643.png">
 
-<br>
+- Proxy와 RealSubject 모두 Subject 인터페이스를 구현함으로써 클라이언트는 프록시를 주객체하고 똑같은 식으로 다룰 수 있다.
+- RealSubject는 실제 작업을 대부분 처리하는 객체며 Proxy는 이 객체에 대한 접근을 제어한다.
+- Proxy에는 실제 작업을 처리하는 객체에 대한 레퍼런스(Real Subject)가 들어있다. 실제 객체가 필요하면 그 레퍼런스를 이용해서 요청을 한다.
 
-### Decorator pattern
+### 원격 프록시
 
-https://github.com/inbaeyoonkr/design-pattern/tree/decorator-pattern
+- 원격 프록시는 원격 객체에 대한 로컬 대변자 역할을 한다.
+  - 원격 객체: 다른 주소 공간에서 돌아가고 있는 객체
+  - 로컬 대변자: 로컬 대변자의 메서드를 호출하면 다른 원격 객체에게 호출을 전달해주는 역할을 하는 객체
+- 클라이언트 객체에서는 원격 객체의 메소드 호출을 하는 것처럼 행동
+  → 실제로는 같은 주소공간 상의 '프록시' 객체의 메소드를 호출, 네트워크 통신과 관련된 저수준 작업은 이 프록시 객체에서 처리
 
-<br>
+### 가상 프록시 (Virtual Proxy)
 
-### Factory pattern
+- 가상 프록시는 생성하는데 많은 비용이 드는 객체를 대신하는 역할을 한다.
+  - 객체의 생성을 미루게 해주는 기능을 제공
+  - 객체 생성 전, 또는 객체 생성 도중에 객체를 대신해주기도 하며 주객체가 생성되면 바로 주객체에 요청을 직접 전달
 
-https://github.com/inbaeyoonkr/design-pattern/blob/factory-pattern
+### 보호 프록시 (Protection Proxy)
 
-<br>
+- 보호 프록시는 접근 제한(access right)을 바탕으로 객체에 대한 접근을 제어하는 역할을 한다.
+  - 예를 들면, 직원들과 일반 소비자가 호출할 수 있는 메서드의 접근을 제어할 수 있다.
 
-### Singleton pattern
+## 프록시 패턴과 데코레이터 패턴
 
-https://github.com/inbaeyoonkr/design-pattern/tree/singleton-pattern
-
-<br>
-
-### Command pattern
-
-https://github.com/inbaeyoonkr/design-pattern/tree/command-pattern
-
-<br>
-
-### Adapter and Facade pattern
-
-https://github.com/inbaeyoonkr/design-pattern/tree/adapter-and-facade-pattern
-
-<br>
-
-### Template Method pattern
-
-https://github.com/inbaeyoonkr/design-pattern/tree/template-method-pattern
-
-<br>
-
-### Iterator and Composite pattern
-
-https://github.com/inbaeyoonkr/design-pattern/tree/iterator-and-composite-pattern
-
-<br>
-
-### State pattern
-
-https://github.com/inbaeyoonkr/design-pattern/tree/state-pattern
+- 데코레이터 패턴은 새로운 기능을 추가해주는 역할을 한다.
+- 프록시 패턴은 주객체를 대신한다. 프록시 객체는 주객체와 동일한 인터페이스를 구현하기 때문에 클라이언트는 주객체를 이용하는 것 같지만 결국은 프록시 객체를 사용하고 있다. 중요한 것은 프록시 패턴은 주객체에 기능을 추가하는 것이 아니라 주객체에 대해서 어떤 작업을 처리하기 위한 작업들을 한다고 볼 수 있을 것 같다.
